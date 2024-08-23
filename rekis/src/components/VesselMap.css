@@ -1,33 +1,53 @@
+/* VesselMap.css */
+
 .map-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
-    background-color: #fff;
+    background-color: #f8f9fa;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 90%;
   }
   
   .info-box {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background-color: #f8f9fa;
-    padding: 15px;
+    background: #ffffff;
+    padding: 15px 25px;
     border-radius: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .info-box div {
+    text-align: center;
   }
   
   .info-box h4 {
-    margin: 0;
-    font-size: 1.2em;
-    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 18px;
+    color: #333;
   }
   
   .info-box p {
     margin: 0;
-    font-size: 1em;
+    font-size: 16px;
     color: #555;
+  }
+  
+  .map-view {
+    width: 100%;
+    height: 600px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .vessel-icon img {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   }
   
