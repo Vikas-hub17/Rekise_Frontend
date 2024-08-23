@@ -25,14 +25,14 @@ const calculateAngle = (startCoords, endCoords) => {
   const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
 
   const angle = Math.atan2(y, x) * (180 / Math.PI);
-  return (angle + 360) % 360; // Normalize the angle to be within 0-360 degrees
+  return (angle + 360) % 360; 
 };
 
 const VesselMap = () => {
   const startCoords = useMemo(() => [22.1696, 91.4996], []);
   const endCoords = useMemo(() => [22.2637, 91.7159], []);
   const speed = 20; // Speed in km/h
-  const refreshRate = 20; // Refresh rate in FPS
+  const refreshRate = 2; // Refresh rate in FPS
 
   const [currentCoords, setCurrentCoords] = useState(startCoords);
   const [vesselAngle, setVesselAngle] = useState(0);
@@ -40,17 +40,17 @@ const VesselMap = () => {
   useEffect(() => {
     // Calculate total distance and time required to travel
     const distance = L.latLng(startCoords).distanceTo(L.latLng(endCoords)) / 1000; // in km
-    const totalTime = (distance / speed) * 3600; // total time in seconds
+    const totalTime = (distance / speed) * 3600; 
 
     let elapsedTime = 0;
-    const intervalTime = 1000 / refreshRate; // interval time in milliseconds
+    const intervalTime = 1000 / refreshRate; 
 
-    // Calculate initial angle
+
     setVesselAngle(calculateAngle(startCoords, endCoords));
 
     const interval = setInterval(() => {
-      elapsedTime += intervalTime / 1000; // increment time in seconds
-      const progress = elapsedTime / totalTime; // calculate progress as a fraction
+      elapsedTime += intervalTime / 1000; 
+      const progress = elapsedTime / totalTime; 
 
       if (progress >= 1) {
         clearInterval(interval);
@@ -65,7 +65,7 @@ const VesselMap = () => {
     return () => clearInterval(interval);
   }, [startCoords, endCoords, speed, refreshRate]);
 
-  // Custom vessel icon with dynamic rotation
+  
   const vesselIcon = L.divIcon({
     html: `<div style="transform: rotate(${vesselAngle}deg);"><img src="/images/vessel.png" style="width: 25px; height: 90px;" /></div>`,
     iconSize: [32, 80],
