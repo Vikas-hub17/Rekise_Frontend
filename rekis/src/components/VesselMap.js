@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import L from 'leaflet';
+import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 // Custom icon paths
@@ -28,11 +28,11 @@ const VesselMap = () => {
   const speed = 20; // Speed in km/h
   const refreshRate = 2; // Refresh rate in FPS
 
+  const [currentCoords, setCurrentCoords] = useState(startCoords);
+
   useEffect(() => {
     const distance = L.latLng(startCoords).distanceTo(L.latLng(endCoords)) / 1000; // in km
     const time = (distance / speed) * 3600; // in seconds
-
-    const vesselMarker = L.marker(startCoords, { icon: vesselIcon }).addTo(L.map('map'));
 
     let currentTime = 0;
     const intervalTime = 1000 / refreshRate; // Interval time based on 2 FPS
@@ -42,10 +42,11 @@ const VesselMap = () => {
       const progress = currentTime / time;
       if (progress >= 1) {
         clearInterval(interval);
+        setCurrentCoords(endCoords);
       } else {
         const currentLat = startCoords[0] + progress * (endCoords[0] - startCoords[0]);
         const currentLng = startCoords[1] + progress * (endCoords[1] - startCoords[1]);
-        vesselMarker.setLatLng([currentLat, currentLng]);
+        setCurrentCoords([currentLat, currentLng]);
       }
     }, intervalTime);
 
@@ -53,11 +54,12 @@ const VesselMap = () => {
   }, [startCoords, endCoords, speed, refreshRate]);
 
   return (
-    <MapContainer center={startCoords} zoom={10} id="map" style={{ height: '600px', width: '100%' }}>
+    <MapContainer center={startCoords} zoom={10} style={{ height: '600px', width: '100%' }}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='© OpenStreetMap contributors' />
       <Marker position={startCoords} icon={startIcon} />
       <Marker position={endCoords} icon={endIcon} />
       <Polyline positions={[startCoords, endCoords]} color="blue" />
+      <Marker position={currentCoords} icon={vesselIcon} />
     </MapContainer>
   );
 };
